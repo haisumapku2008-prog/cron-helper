@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CronHelper Pro - Advanced Visual Scheduler</title>
+    <title>CronHelper Pro - Visual Builder & Explainer Suite</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
         body { background-color: #f1f5f9; color: #1e293b; padding: 2rem 1rem; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
@@ -11,38 +11,33 @@
         header h1 { font-size: 2.25rem; color: #0f172a; font-weight: 800; letter-spacing: -0.025em; }
         header p { color: #64748b; margin-top: 0.5rem; }
         
-        .container { width: 100%; max-width: 1000px; display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+        .container { width: 100%; max-width: 1100px; display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
         @media (min-width: 768px) { .container { grid-template-columns: 3fr 2fr; } }
         
-        .card { background: #ffffff; padding: 1.5rem; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,0.05); height: fit-content; }
-        .card-title { font-size: 1rem; font-weight: 700; color: #0f172a; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; border-bottom: 2px solid #f1f5f9; padding-bottom: 0.5rem; }
+        .card { background: #ffffff; padding: 1.5rem; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,0.05); height: fit-content; margin-bottom: 1.5rem; }
+        .card-title { font-size: 1rem; font-weight: 700; color: #0f172a; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid #f1f5f9; }
         
-        /* Presets Grid */
-        .preset-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; margin-bottom: 1.5rem; }
-        .btn-preset { background: #f8fafc; border: 1px solid #cbd5e1; padding: 0.6rem; border-radius: 6px; font-size: 0.85rem; font-weight: 600; color: #475569; cursor: pointer; text-align: left; transition: all 0.2s; }
-        .btn-preset:hover { background: #e2e8f0; border-color: #94a3b8; color: #0f172a; }
+        /* Interactive Builder Grid Widgets */
+        .builder-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
         
-        /* Manual Input Controls */
-        .cron-input-container { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; }
-        .cron-raw-input { flex: 1; padding: 0.75rem 1rem; border: 2px solid #cbd5e1; border-radius: 8px; font-family: ui-monospace, monospace; font-size: 1.25rem; color: #2563eb; font-weight: 700; outline: none; text-align: center; letter-spacing: 0.1em; }
-        .cron-raw-input:focus { border-color: #2563eb; }
-        
-        .fields-label-grid { display: grid; grid-template-columns: repeat(5, 1fr); text-align: center; margin-top: -1.25rem; margin-bottom: 1.5rem; font-size: 0.7rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; }
+        .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+        label { font-size: 0.85rem; font-weight: 600; color: #475569; text-transform: uppercase; letter-spacing: 0.025em; }
+        select, input[type="text"] { width: 100%; padding: 0.6rem; border: 1px solid #cbd5e1; border-radius: 6px; background: #fff; font-size: 0.9rem; color: #334155; outline: none; }
+        select:focus, input:focus { border-color: #2563eb; }
 
-        .form-group { margin-bottom: 1rem; }
-        label { display: block; font-size: 0.85rem; font-weight: 600; color: #475569; margin-bottom: 0.4rem; }
-        select { width: 100%; padding: 0.6rem; border: 1px solid #cbd5e1; border-radius: 6px; background: #fff; font-size: 0.9rem; color: #334155; outline: none; }
-
-        /* Output Display Panels */
-        .english-box { background: #eff6ff; border-left: 4px solid #2563eb; padding: 1rem; border-radius: 0 8px 8px 0; margin-bottom: 1.5rem; font-weight: 600; color: #1e40af; font-size: 1.05rem; }
+        /* Output Displays */
+        .cron-input-container { display: flex; gap: 0.5rem; margin-top: 1rem; margin-bottom: 0.25rem; }
+        .cron-raw-input { flex: 1; padding: 0.75rem 1rem; border: 2px solid #cbd5e1; border-radius: 8px; font-family: ui-monospace, monospace; font-size: 1.5rem; color: #2563eb; font-weight: 700; outline: none; text-align: center; letter-spacing: 0.1em; background: #f8fafc; }
         
-        /* Variant Syntax Cards */
-        .syntax-row { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.5rem; }
-        .syntax-card { background: #f8fafc; border: 1px solid #e2e8f0; padding: 0.75rem 1rem; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; }
+        .fields-label-grid { display: grid; grid-template-columns: repeat(5, 1fr); text-align: center; margin-bottom: 1.5rem; font-size: 0.7rem; font-weight: 700; color: #94a3b8; text-transform: uppercase; }
+        .english-box { background: #eff6ff; border-left: 4px solid #2563eb; padding: 1.25rem; border-radius: 0 8px 8px 0; margin-bottom: 1.5rem; font-weight: 600; color: #1e40af; font-size: 1.1rem; }
+        
+        /* Syntax Target Cards */
+        .syntax-card { background: #f8fafc; border: 1px solid #e2e8f0; padding: 0.75rem 1rem; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
         .syntax-name { font-size: 0.8rem; font-weight: 700; color: #64748b; text-transform: uppercase; }
-        .syntax-val { font-family: ui-monospace, monospace; font-size: 0.9rem; color: #0f172a; font-weight: 600; background: #ffffff; padding: 0.25rem 0.5rem; border: 1px solid #e2e8f0; border-radius: 4px; max-width: 65%; overflow-x: auto; white-space: nowrap; }
+        .syntax-val { font-family: ui-monospace, monospace; font-size: 0.9rem; color: #0f172a; font-weight: 600; background: #ffffff; padding: 0.25rem 0.5rem; border: 1px solid #e2e8f0; border-radius: 4px; }
 
-        /* Next Runs List / Timeline */
+        /* Timelines visual calendar output list */
         .run-list { display: flex; flex-direction: column; gap: 0.5rem; }
         .run-item { display: flex; align-items: center; justify-content: space-between; padding: 0.6rem 0.75rem; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; font-size: 0.85rem; }
         .run-index { background: #e2e8f0; color: #475569; font-weight: 700; border-radius: 4px; padding: 0.15rem 0.4rem; font-size: 0.75rem; }
@@ -52,220 +47,230 @@
 <body>
 
     <header>
-        <h1>CronHelper Pro</h1>
-        <p>Enterprise scheduler engine translating expression architectures instantly.</p>
+        <h1>CronHelper Pro Suite</h1>
+        <p>Interactive Dual visual composition architecture and natural language cross-compilation.</p>
     </header>
 
     <div class="container">
-        <div class="card">
-            <div class="card-title">⚙️ Expression Generator</div>
-            
-            <label>Quick Presets</label>
-            <div class="preset-grid">
-                <button class="btn-preset" data-cron="* * * * *">⚡ Every Minute</button>
-                <button class="btn-preset" data-cron="0 * * * *">⏰ Every Hour</button>
-                <button class="btn-preset" data-cron="0 9 * * 1-5">💼 Every Weekday (9 AM)</button>
-                <button class="btn-preset" data-cron="0 0 1 * *">📅 First of Month (Midnight)</button>
-                <button class="btn-preset" data-cron="0 22 * * 0">🌙 Sunday Nights (10 PM)</button>
-                <button class="btn-preset" data-cron="*/15 0 * * *">⏱️ Every 15 Mins</button>
+        <div>
+            <div class="card">
+                <div class="card-title">🔨 UI Interactive Visual Builder</div>
+                
+                <div class="builder-row">
+                    <div class="form-group">
+                        <label for="buildMinutes">Minute Interval</label>
+                        <select id="buildMinutes">
+                            <option value="*">Every Minute (*)</option>
+                            <option value="0" selected>At the Top of the Hour (:00)</option>
+                            <option value="*/5">Every 5 Minutes (*/5)</option>
+                            <option value="*/15">Every 15 Minutes (*/15)</option>
+                            <option value="30">At 30 minutes past (:30)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="buildHours">Hour execution</label>
+                        <select id="buildHours">
+                            <option value="*">Every Hour (*)</option>
+                            <option value="0">Midnight (12:00 AM)</option>
+                            <option value="9" selected>9:00 AM</option>
+                            <option value="12">12:00 PM Noon</option>
+                            <option value="18">6:00 PM</option>
+                            <option value="22">10:00 PM</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="builder-row">
+                    <div class="form-group">
+                        <label for="buildDays">Day of Month</label>
+                        <select id="buildDays">
+                            <option value="*" selected>Every Single Day (*)</option>
+                            <option value="1">First Day of Month (1)</option>
+                            <option value="15">Middle of Month (15)</option>
+                            <option value="L">Last Day of Month (L)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="buildWeekdays">Day of Week Constraints</label>
+                        <select id="buildWeekdays">
+                            <option value="*" selected>Every Day of Week (*)</option>
+                            <option value="1-5">Weekdays Only (Mon-Fri)</option>
+                            <option value="0,6">Weekends Only (Sat-Sun)</option>
+                            <option value="1">Mondays Only (1)</option>
+                            <option value="5">Fridays Only (5)</option>
+                        </select>
+                    </div>
+                </div>
             </div>
 
-            <label for="cronInput">Cron Expression String</label>
-            <div class="cron-input-container">
-                <input type="text" id="cronInput" class="cron-raw-input" value="0 9 * * 1">
-            </div>
-            <div class="fields-label-grid">
-                <div>min</div>
-                <div>hour</div>
-                <div>day</div>
-                <div>month</div>
-                <div>wday</div>
+            <div class="card">
+                <div class="card-title">📖 Real-Time Core Parser Explainer</div>
+                
+                <label for="cronInput">Calculated / Editable Code String Token</label>
+                <div class="cron-input-container">
+                    <input type="text" id="cronInput" class="cron-raw-input" value="0 9 * * *">
+                </div>
+                <div class="fields-label-grid">
+                    <div>min</div>
+                    <div>hour</div>
+                    <div>day</div>
+                    <div>month</div>
+                    <div>wday</div>
+                </div>
+
+                <label>Plain-English Translation Evaluation</label>
+                <div class="english-box" id="englishOutput">Runs daily at 9:00 AM.</div>
+
+                <div class="form-group" style="margin-top: 1rem;">
+                    <label for="timezoneSelect">Evaluation Projection Timezone</label>
+                    <select id="timezoneSelect">
+                        <option value="UTC" selected>UTC Timezone standard</option>
+                        <option value="local">Your Device Local Timezone</option>
+                        <option value="America/New_York">America/New_York (EST/EDT)</option>
+                        <option value="Asia/Tokyo">Asia/Tokyo (JST)</option>
+                    </select>
+                </div>
             </div>
 
-            <div class="form-group">
-                <label for="timezoneSelect">Target Evaluation Timezone</label>
-                <select id="timezoneSelect">
-                    <option value="UTC">UTC (Coordinated Universal Time)</option>
-                    <option value="local">Local System Timezone</option>
-                    <option value="America/New_York">America/New_York (EST/EDT)</option>
-                    <option value="Europe/London">Europe/London (GMT/BST)</option>
-                    <option value="Asia/Tokyo">Asia/Tokyo (JST)</option>
-                </select>
-            </div>
-
-            <label>Plain-English Evaluation</label>
-            <div class="english-box" id="englishOutput">Runs every Monday at 9:00 AM</div>
-
-            <label>Platform Target Implementations</label>
-            <div class="syntax-row">
-                <div class="syntax-card">
-                    <span class="syntax-name">POSIX Standard</span>
-                    <span class="syntax-val" id="syntaxPOSIX">0 9 * * 1</span>
-                </div>
-                <div class="syntax-card">
-                    <span class="syntax-name">Kubernetes CronJob</span>
-                    <span class="syntax-val" id="syntaxK8s">schedule: "0 9 * * 1"</span>
-                </div>
-                <div class="syntax-card">
-                    <span class="syntax-name">GitHub Actions</span>
-                    <span class="syntax-val" id="syntaxGHA">- cron: '0 9 * * 1'</span>
-                </div>
-                <div class="syntax-card">
-                    <span class="syntax-name">AWS EventBridge</span>
-                    <span class="syntax-val" id="syntaxAWS">cron(0 9 * * ? *)</span>
-                </div>
+            <div class="card">
+                <div class="card-title">🚀 Cross-Platform Formatted Configurations</div>
+                <div class="syntax-card"><span class="syntax-name">POSIX Crontab</span><span class="syntax-val" id="synPOSIX">0 9 * * *</span></div>
+                <div class="syntax-card"><span class="syntax-name">Kubernetes CronJob</span><span class="syntax-val" id="synK8s">"0 9 * * *"</span></div>
+                <div class="syntax-card"><span class="syntax-name">GitHub Actions Workflow</span><span class="syntax-val" id="synGHA">'0 9 * * *'</span></div>
+                <div class="syntax-card"><span class="syntax-name">AWS EventBridge Syntax</span><span class="syntax-val" id="synAWS">cron(0 9 * * ? *)</span></div>
             </div>
         </div>
 
         <div class="card">
-            <div class="card-title">📅 Next 10 Execution Schedules</div>
-            <div class="run-list" id="nextRunsSchedule">
+            <div class="card-title">📅 Simulated Runtime Delivery Schedules (Next 10)</div>
+            <div class="run-list" id="timelineSchedule">
                 </div>
         </div>
     </div>
 
     <script>
+        const buildMin = document.getElementById('buildMinutes');
+        const buildHour = document.getElementById('buildHours');
+        const buildDay = document.getElementById('buildDays');
+        const buildWday = document.getElementById('buildWeekdays');
+
         const cronInput = document.getElementById('cronInput');
-        const timezoneSelect = document.getElementById('timezoneSelect');
         const englishOutput = document.getElementById('englishOutput');
-        const nextRunsSchedule = document.getElementById('nextRunsSchedule');
-        
-        // Syntax elements
-        const syntaxPOSIX = document.getElementById('syntaxPOSIX');
-        const syntaxK8s = document.getElementById('syntaxK8s');
-        const syntaxGHA = document.getElementById('syntaxGHA');
-        const syntaxAWS = document.getElementById('syntaxAWS');
+        const timezoneSelect = document.getElementById('timezoneSelect');
+        const timelineSchedule = document.getElementById('timelineSchedule');
 
-        // Simple runtime regex parsing map dictionary definitions to output plain english
-        function translateToEnglish(cron) {
-            const parts = cron.trim().split(/\s+/);
-            if (parts.length < 5) return "Invalid expression structure.";
-            
-            const [min, hour, day, month, wday] = parts;
-            
-            if (cron === '* * * * *') return "Runs every single minute.";
-            if (cron === '0 * * * *') return "Runs every hour at the top of the hour.";
-            if (cron === '0 9 * * 1-5') return "Runs every weekday (Monday through Friday) at 9:00 AM.";
-            if (cron === '0 0 1 * *') return "Runs at midnight on the first day of every month.";
-            if (cron === '0 22 * * 0') return "Runs every Sunday night at 10:00 PM.";
-            if (min.startsWith('*/')) return `Runs every ${min.split('/')[1]} minutes continuous.`;
+        const synPOSIX = document.getElementById('synPOSIX');
+        const synK8s = document.getElementById('synK8s');
+        const synGHA = document.getElementById('synGHA');
+        const synAWS = document.getElementById('synAWS');
 
-            // Dynamic combination builder
-            let mStr = min === '*' ? 'every minute' : `minute :${min.padStart(2, '0')}`;
-            let hStr = hour === '*' ? 'every hour' : `at ${hour.padStart(2, '0')}:00`;
-            if (min !== '*' && hour !== '*') hStr = `at ${hour}:${min.padStart(2, '0')}`;
-            
-            let dStr = day === '*' ? '' : ` on day ${day} of the month`;
-            let wMap = {'0':'Sunday','1':'Monday','2':'Tuesday','3':'Wednesday','4':'Thursday','5':'Friday','6':'Saturday','*':''};
-            let wStr = wday === '*' ? '' : ` on ${wMap[wday] || 'selected weekdays'}`;
-
-            if (hour !== '*' && min !== '*' && wday !== '*' && day === '*') {
-                return `Runs every ${wMap[wday]} ${hStr}.`;
-            }
-
-            return `Runs text sequence patterns: ${hStr}${dStr}${wStr}.`.replace(/\s+/g, ' ');
+        // [1] Direction A: UI inputs compile down into the main string text field input asset
+        function syncUItoTextString() {
+            const compiled = `${buildMin.value} ${buildHour.value} ${buildDay.value} * ${buildWday.value}`;
+            cronInput.value = compiled;
+            executeCoreEngineAnalysis();
         }
 
-        // Generate Syntax Variants
-        function updateVariants(cron) {
-            const clean = cron.trim();
-            syntaxPOSIX.innerText = clean;
-            syntaxK8s.innerText = `schedule: "${clean}"`;
-            syntaxGHA.innerText = `- cron: '${clean}'`;
+        // [2] Direction B: Direct User typing into the box parses right back into UI dropdown selections
+        function syncTextStringToUI() {
+            const parts = cronInput.value.trim().split(/\s+/);
+            if(parts.length === 5) {
+                // If the user types a value matching one of our menu presets, update the dropdown selector
+                if([...buildMin.options].some(o => o.value === parts[0])) buildMin.value = parts[0];
+                if([...buildHour.options].some(o => o.value === parts[1])) buildHour.value = parts[1];
+                if([...buildDay.options].some(o => o.value === parts[2])) buildDay.value = parts[2];
+                if([...buildWday.options].some(o => o.value === parts[4])) buildWday.value = parts[4];
+            }
+            executeCoreEngineAnalysis();
+        }
+
+        // Translation Engine Engine Lexer Parser logic maps tokens to readable text sentences 
+        function computeEnglishEvaluation(cron) {
+            const parts = cron.trim().split(/\s+/);
+            if(parts.length < 5) return "Incomplete configuration signature.";
+
+            const [m, h, d, mo, w] = parts;
             
-            // AWS EventBridge adjustments (Requires 6 parameters, swaps * to ? for either day or weekday)
-            const parts = clean.split(/\s+/);
+            if(cron === '* * * * *') return "Runs constantly every single minute.";
+            if(cron === '0 * * * *') return "Runs once an hour, at the exact top of the hour.";
+            
+            let mText = m === '*' ? "every minute" : `at minute :${m.padStart(2, '0')}`;
+            let hText = h === '*' ? "of every hour" : `at ${h.padStart(2, '0')}:00`;
+            if(m !== '*' && h !== '*') hText = `at ${h}:${m.padStart(2, '0')}`;
+
+            let dText = d === '*' ? "" : ` on day ${d} of the month`;
+            
+            const wMap = {'*':'','1-5':' Monday through Friday','0,6':' Saturday and Sunday','1':' Monday','5':' Friday'};
+            let wText = wMap[w] !== undefined ? wMap[w] : ` on selected day (${w})`;
+
+            return `Runs smoothly ${hText}${dText}${wText}.`.replace(/\s+/g, ' ');
+        }
+
+        // Cross platform synchronization formatter pipeline compilation maps
+        function syncOutputTargets(cron) {
+            synPOSIX.innerText = cron;
+            synK8s.innerText = `schedule: "${cron}"`;
+            synGHA.innerText = `- cron: '${cron}'`;
+
+            const parts = cron.split(/\s+/);
             if(parts.length === 5) {
                 let [m, h, d, mo, w] = parts;
-                if (w === '*') w = '?';
-                else if (d === '*') d = '?';
-                syntaxAWS.innerText = `cron(${m} ${h} ${d} ${mo} ${w} *)`;
-            } else {
-                syntaxAWS.innerText = "cron(* * * * ? *)";
+                if (w === '*') w = '?'; else if (d === '*') d = '?';
+                synAWS.innerText = `cron(${m} ${h} ${d} ${mo} ${w} *)`;
             }
         }
 
-        // Compute simulated next 10 schedules matching chosen timezone configurations
-        function calculateNextRuns(cron, tz) {
-            nextRunsSchedule.innerHTML = '';
+        // Next 10 run timelines predictor loop 
+        function calculateTimelinePredictions(cron, tz) {
+            timelineSchedule.innerHTML = '';
             const parts = cron.trim().split(/\s+/);
             if (parts.length < 5) return;
 
             const [min, hour, day, month, wday] = parts;
             let current = new Date();
-            let instances = [];
-            
-            let count = 0;
-            let loopSafety = 0;
-            
+            let count = 0; let loopSafety = 0;
+
             while(count < 10 && loopSafety < 10000) {
                 loopSafety++;
                 current.setMinutes(current.getMinutes() + 1);
-                
-                // Matches minute constraint
+
                 if (min !== '*' && !min.includes('/') && current.getMinutes() !== parseInt(min)) continue;
                 if (min.includes('*/')) {
-                    let step = parseInt(min.split('/')[1]);
-                    if (current.getMinutes() % step !== 0) continue;
+                    if (current.getMinutes() % parseInt(min.split('/')[1]) !== 0) continue;
                 }
-                
-                // Matches hour constraint
                 if (hour !== '*' && current.getHours() !== parseInt(hour)) continue;
-                
-                // Matches day of week constraint (0 is Sunday)
-                if (wday !== '*' && wday !== '1-5') {
-                    if (current.getDay() !== parseInt(wday)) continue;
-                }
-                if (wday === '1-5') {
-                    if (current.getDay() === 0 || current.getDay() === 6) continue;
-                }
-
-                // Matches day of month constraint
+                if (wday === '1-5' && (current.getDay() === 0 || current.getDay() === 6)) continue;
+                if (wday === '0,6' && (current.getDay() !== 0 && current.getDay() !== 6)) continue;
+                if (wday !== '*' && wday !== '1-5' && wday !== '0,6' && current.getDay() !== parseInt(wday)) continue;
                 if (day !== '*' && current.getDate() !== parseInt(day)) continue;
 
-                // Format string output layout
-                let options = { 
-                    timeZone: tz === 'local' ? undefined : tz,
-                    year: 'numeric', month: 'short', day: '2-digit',
-                    hour: '2-digit', minute: '2-digit', second: '2-digit',
-                    hour12: true 
-                };
-                
-                let dateStr = current.toLocaleString('en-US', options);
-                instances.push(dateStr);
+                let options = { timeZone: tz === 'local' ? undefined : tz, month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: true };
+                let dateString = current.toLocaleString('en-US', options);
+
+                const div = document.createElement('div');
+                div.className = 'run-item';
+                div.innerHTML = `<span class="run-index">#${count+1}</span><span class="run-date">${dateString} (${tz.split('/')[1] || tz})</span>`;
+                timelineSchedule.appendChild(div);
                 count++;
             }
-
-            instances.forEach((date, i) => {
-                const item = document.createElement('div');
-                item.className = 'run-item';
-                item.innerHTML = `<span class="run-index">#${i+1}</span><span class="run-date">${date}</span>`;
-                nextRunsSchedule.appendChild(item);
-            });
         }
 
-        function processEngineUpdate() {
-            const expression = cronInput.value;
+        function executeCoreEngineAnalysis() {
+            const value = cronInput.value;
             const tz = timezoneSelect.value;
-            
-            englishOutput.innerText = translateToEnglish(expression);
-            updateVariants(expression);
-            calculateNextRuns(expression, tz);
+
+            englishOutput.innerText = computeEnglishEvaluation(value);
+            syncOutputTargets(value);
+            calculateTimelinePredictions(value, tz);
         }
 
-        // Preset item triggers
-        document.querySelectorAll('.btn-preset').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                cronInput.value = e.target.getAttribute('data-cron');
-                processEngineUpdate();
-            });
-        });
+        // Attach state change context triggers
+        [buildMin, buildHour, buildDay, buildWday].forEach(el => el.addEventListener('change', syncUItoTextString));
+        cronInput.addEventListener('input', syncTextStringToUI);
+        timezoneSelect.addEventListener('change', executeCoreEngineAnalysis);
 
-        cronInput.addEventListener('input', processEngineUpdate);
-        timezoneSelect.addEventListener('change', processEngineUpdate);
-
-        // Run default load state
-        processEngineUpdate();
+        // Core runtime starter execution launch triggers load parameters
+        syncUItoTextString();
     </script>
 </body>
 </html>
