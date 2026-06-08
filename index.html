@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CronHelper Pro - Advanced Visual Builder & Explainer Suite</title>
+    <meta name="description" content="An interactive cron expression builder and explainer. Easily generate, parse, and simulate job schedules for your systems with our visual suite.">
+    <meta name="keywords" content="cron helper, cron builder, cron parser, job scheduler, linux cron, cron syntax, crontab">
+    <link rel="canonical" href="https://yourdomain.com/cron-helper/">
+
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
         body { background-color: #f1f5f9; color: #1e293b; padding: 2rem 1rem; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
@@ -156,17 +160,14 @@
         const dayMap = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
         const monthMap = ['', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
-        // Core parsing sub-engine for individual cron segments
         function parseSegment(token, type) {
             if (token === '*') return type === 'month' || type === 'wday' || type === 'day' ? '' : 'every ' + type;
             
-            // Handle Step Intervals (e.g., */15)
             if (token.startsWith('*/')) {
                 const step = token.split('/')[1];
                 return `every ${step} ${type}s`;
             }
 
-            // Handle Ranges (e.g., 1-3)
             if (token.includes('-')) {
                 const [start, end] = token.split('-');
                 if (type === 'wday') return `${dayMap[start]} through ${dayMap[end]}`;
@@ -174,7 +175,6 @@
                 return `${type}s ${start} through ${end}`;
             }
 
-            // Handle Lists (e.g., 1,3,5)
             if (token.includes(',')) {
                 const items = token.split(',');
                 if (type === 'wday') return items.map(i => dayMap[i]).join(', ');
@@ -182,14 +182,12 @@
                 return `${type}s: ${token}`;
             }
 
-            // Single value mappings
             if (type === 'wday') return `on ${dayMap[token]}`;
             if (type === 'month') return `in ${monthMap[token]}`;
             if (type === 'hour') return `at ${token.padStart(2, '0')}:00`;
             return token;
         }
 
-        // Intelligent English Translation Engine
         function computeEnglishEvaluation(cron) {
             const parts = cron.trim().split(/\s+/);
             if (parts.length < 5) return "Incomplete or invalid cron signature.";
@@ -202,7 +200,6 @@
             let monthPart = parseSegment(mo, 'month');
             let weekdayPart = parseSegment(w, 'wday');
 
-            // Intelligently formatting the time component if specific hour and minute are targeted
             if (!m.includes('*') && !m.includes(',') && !m.includes('-') && !h.includes('*') && !h.includes(',') && !h.includes('-')) {
                 const hourNum = parseInt(h);
                 const ampm = hourNum >= 12 ? 'PM' : 'AM';
@@ -217,7 +214,6 @@
                 minutePart = '';
             }
 
-            // Assembly structure compilation rules
             let description = "Runs ";
             if (minutePart) description += minutePart + ' ';
             if (hourPart) description += hourPart + ' ';
@@ -227,7 +223,6 @@
 
             if (d === '*' && w === '*' && h === '*' && m === '*') return "Runs continuously every single minute.";
 
-            // Clean up double spaces and trailing punctuation adjustments
             return description.trim().replace(/\s+/g, ' ') + '.';
         }
 
@@ -270,7 +265,6 @@
             let current = new Date();
             let count = 0; let loopSafety = 0;
 
-            // Simple calendar loop evaluation parser matchers
             while (count < 10 && loopSafety < 20000) {
                 loopSafety++;
                 current.setMinutes(current.getMinutes() + 1);
@@ -317,7 +311,6 @@
         cronInput.addEventListener('input', syncTextStringToUI);
         timezoneSelect.addEventListener('change', executeCoreEngineAnalysis);
 
-        // Initial launch parameters load
         executeCoreEngineAnalysis();
     </script>
 </body>
